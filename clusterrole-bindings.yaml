@@ -1,23 +1,25 @@
----
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: node-admin
+  name: storage-admin
 rules:
 - apiGroups: [""]
-  resources: ["nodes"]
+  resources: ["persistentvolumes"]
+  verbs: ["get", "watch", "list", "create", "delete"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
   verbs: ["get", "watch", "list", "create", "delete"]
 
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: michelle-binding
+  name: michelle-storage-admin
 subjects:
 - kind: User
   name: michelle
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: node-admin
+  name: storage-admin
   apiGroup: rbac.authorization.k8s.io
